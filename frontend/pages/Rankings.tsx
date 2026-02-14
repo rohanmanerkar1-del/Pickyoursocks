@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import AppHeader from '../components/AppHeader';
 import { MapPin, TrendingUp, Trophy, ArrowRight, Loader2 } from 'lucide-react';
 import { api } from '../services/api';
 import { NearbyUser, SPORTS } from '../constants';
@@ -47,11 +46,11 @@ const Rankings: React.FC = () => {
     }, [selectedSport, currentRegion]);
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-blue-600/30">
-            <Navbar />
+        <div className="min-h-screen bg-black text-white selection:bg-blue-600/30 pb-24">
+            <AppHeader title="Standings" />
 
-            <main className="pt-24 pb-20 px-4 md:px-8 max-w-4xl mx-auto animate-enter">
-                <div className="mb-12">
+            <main className="pt-20 px-4 w-full">
+                <div className="mb-8">
                     <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-4">
                         Your <span className="text-blue-600">Standing</span>
                     </h1>
@@ -111,36 +110,33 @@ const Rankings: React.FC = () => {
 
                 {/* 2. Leaderboard Table */}
                 <div className="bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden">
-                    <div className="p-6 border-b border-white/5 bg-zinc-900/50 flex items-center justify-between">
-                        <h3 className="text-xl font-black italic uppercase tracking-tighter flex items-center gap-3">
-                            <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-4 py-2 rounded-full">
+                    <div className="p-4 border-b border-white/5 bg-zinc-900/50 flex flex-col gap-4">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-lg font-black italic uppercase tracking-tighter flex items-center gap-2">
                                 <Trophy className="text-yellow-500" size={16} />
-                                <input
-                                    type="text"
-                                    value={currentRegion}
-                                    onChange={(e) => setCurrentRegion(e.target.value)}
-                                    className="bg-transparent border-none outline-none w-48 text-white placeholder-zinc-600 font-black italic uppercase text-2xl focus:ring-0"
-                                    placeholder="REGION..."
-                                />
-                            </div>
-                            <span className="text-zinc-500">/</span>
-                            <span>Leaderboard</span>
-                        </h3>
-
-                        <div className="flex gap-2">
+                                <span>Leaderboard</span>
+                            </h3>
                             <select
                                 value={selectedSport}
                                 onChange={(e) => setSelectedSport(e.target.value)}
-                                className="bg-black/50 border border-white/10 rounded-lg text-xs font-bold uppercase tracking-wider text-white px-3 py-1 outline-none focus:border-blue-600"
+                                className="bg-black/50 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-wider text-white px-3 py-1 outline-none focus:border-blue-600"
                             >
                                 {SPORTS.map(s => (
                                     <option key={s.id} value={s.id}>{s.name}</option>
                                 ))}
                             </select>
                         </div>
-                        {/* <button className="text-xs font-bold uppercase tracking-widest text-blue-500 hover:text-white transition-colors">
-                            View Global →
-                        </button> */}
+
+                        <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-4 py-2 rounded-xl">
+                            <MapPin className="text-blue-500" size={14} />
+                            <input
+                                type="text"
+                                value={currentRegion}
+                                onChange={(e) => setCurrentRegion(e.target.value)}
+                                className="bg-transparent border-none outline-none w-full text-white placeholder-zinc-600 font-bold uppercase text-sm focus:ring-0"
+                                placeholder="REGION..."
+                            />
+                        </div>
                     </div>
 
                     {error ? (
@@ -230,7 +226,6 @@ const Rankings: React.FC = () => {
                 </div>
 
             </main >
-            <Footer />
         </div >
     );
 };

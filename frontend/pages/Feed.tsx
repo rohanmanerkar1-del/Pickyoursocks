@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthContext';
-import Navbar from '../components/Navbar';
+import AppHeader from '../components/AppHeader';
 import UserProfileSidebar from '../components/UserProfileSidebar';
 import ErrorState from '../components/ErrorState';
 import { supabase } from '../lib/supabase';
@@ -266,10 +266,10 @@ const Feed: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pb-20 relative">
-      <Navbar />
+    <div className="min-h-screen bg-black text-white pb-24 relative">
+      <AppHeader title="Feed" />
 
-      <main className="pt-24 px-4 md:px-8 max-w-3xl mx-auto">
+      <main className="pt-20 px-4 max-w-lg mx-auto">
         <div className="space-y-8">
 
           {/* FEED */}

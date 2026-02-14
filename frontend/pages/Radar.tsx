@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthContext';
-import Navbar from '../components/Navbar';
+import AppHeader from '../components/AppHeader';
 import StartMatchSidebar from '../components/StartMatchSidebar';
 import { supabase } from '../lib/supabase';
 import { Target, Users, Radio, Loader2, AlertCircle, Check, X, Trophy, Frown } from 'lucide-react';
@@ -348,14 +348,18 @@ const Radar: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-blue-600">
-            <Navbar />
+        <div className="min-h-screen bg-black text-white selection:bg-blue-600 pb-24">
+            <AppHeader title="The Radar" />
 
-            <main className="pt-24 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-                <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <main className="pt-20 px-4 w-full">
+                <div className="flex flex-col gap-8 items-start max-w-lg mx-auto">
+                    {/* Top Sidebar Content (Broadcast/Challenge) - Mobile first move to top */}
+                    <div className="w-full">
+                        <StartMatchSidebar />
+                    </div>
 
-                    {/* LEFT: Radar Feed */}
-                    <div className="lg:col-span-8 space-y-8">
+                    {/* Radar Feed */}
+                    <div className="w-full space-y-8">
 
                         {/* Header & Sport Selector */}
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-900/40 p-6 rounded-3xl border border-white/5 backdrop-blur-sm">
@@ -722,20 +726,15 @@ const Radar: React.FC = () => {
                         )}
                     </div>
 
-                    {/* RIGHT: Sidebar */}
-                    <div className="lg:col-span-4 space-y-8 sticky top-24">
-                        <StartMatchSidebar />
-
-                        {/* Radar Intelligence Tip */}
-                        <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 p-6 rounded-3xl space-y-4">
-                            <div className="flex items-center gap-2 text-blue-500">
-                                <Users size={20} />
-                                <h4 className="text-sm font-black uppercase tracking-widest italic">Sector Intel</h4>
-                            </div>
-                            <p className="text-gray-400 text-xs leading-relaxed">
-                                Our <span className="text-white font-bold">Shadow-Calibrated Radar</span> calculates match quality based on ELO proximity, reliability history, and play frequency.
-                            </p>
+                    {/* Radar Intelligence Tip */}
+                    <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 p-6 rounded-3xl space-y-4">
+                        <div className="flex items-center gap-2 text-blue-500">
+                            <Users size={20} />
+                            <h4 className="text-sm font-black uppercase tracking-widest italic">Sector Intel</h4>
                         </div>
+                        <p className="text-gray-400 text-xs leading-relaxed">
+                            Our <span className="text-white font-bold">Shadow-Calibrated Radar</span> calculates match quality based on ELO proximity, reliability history, and play frequency.
+                        </p>
                     </div>
                 </div>
             </main>

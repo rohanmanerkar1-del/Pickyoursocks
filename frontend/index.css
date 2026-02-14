@@ -7,10 +7,12 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-black text-white antialiased;
+    overflow-x: hidden;
   }
 
   ::selection {

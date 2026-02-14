@@ -1,11 +1,10 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
-import { Camera, User, Users, History, Layout } from 'lucide-react';
+import { Camera, User, Users, History, Layout, Settings, MapPin } from 'lucide-react';
 
 import { useAuth } from '../components/AuthContext';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import AppHeader from '../components/AppHeader';
 import { supabase } from '../lib/supabase';
 import { uploadProfilePhoto } from '../lib/r2';
 import { useNotification } from '../components/NotificationContext';
@@ -246,10 +245,18 @@ const Profile: React.FC = () => {
   if (!profileUser) return <div className="min-h-screen bg-black text-white flex items-center justify-center">User not found</div>;
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-black text-white flex flex-col pb-24">
+      <AppHeader
+        title={isOwnProfile ? "My Profile" : (profileUser.name || profileUser.username)}
+        showBack={!isOwnProfile}
+        rightAction={isOwnProfile && (
+          <button onClick={logout} className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+            <Settings size={22} />
+          </button>
+        )}
+      />
 
-      <main className="flex-grow pt-32 pb-20 px-6 max-w-4xl mx-auto w-full">
+      <main className="flex-grow pt-20 px-4 w-full">
         {/* HEADER */}
         <div className="flex flex-col items-center mb-12 text-center">
           <div className="relative group">
@@ -266,7 +273,15 @@ const Profile: React.FC = () => {
             )}
           </div>
           <h1 className="text-3xl font-bold mt-4 tracking-tight">{profileUser.name || profileUser.username}</h1>
-          <p className="text-gray-400">@{profileUser.username}</p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-gray-400">@{profileUser.username}</p>
+            {(profileUser.locality || profileUser.region) && (
+              <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-bold uppercase tracking-wider bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                <MapPin size={12} className="text-blue-500" />
+                <span>{profileUser.locality ? `${profileUser.locality}, ` : ''}{profileUser.region}</span>
+              </div>
+            )}
+          </div>
 
           {!isOwnProfile && currentUser && (
             <div className="mt-4">
@@ -448,15 +463,7 @@ const Profile: React.FC = () => {
           </div>
         )}
 
-        {isOwnProfile && (
-          <div className="mt-32 text-center pb-20 border-t border-white/5 pt-20">
-            <button onClick={logout} className="text-red-500/50 font-black uppercase tracking-[0.3em] text-[10px] hover:text-red-500 transition-all hover:tracking-[0.4em]">
-              Disconnect Session
-            </button>
-          </div>
-        )}
       </main>
-      <Footer />
     </div>
   );
 };
