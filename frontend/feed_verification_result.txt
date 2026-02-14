@@ -1,0 +1,4 @@
+=== VERIFYING FEED (Explicit FK) ===
+Fetching posts with explicit 'posts_user_id_fkey'...
+✅ SUCCESS with 'posts_user_id_fkey'!
+   Count: 5

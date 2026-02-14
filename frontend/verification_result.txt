@@ -1,0 +1,3 @@
+=== VERIFYING RADAR SETUP ===
+Attempt 1: Testing 'get_radar_matches' (v3 signature)...
+✅ SUCCESS: Radar (v3) is correctly installed!
