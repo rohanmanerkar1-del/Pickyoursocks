@@ -27,15 +27,9 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Navigate to="/feed" replace />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/sports" element={<AllSports />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsOfService />} />
-
-          {/* Protected Routes */}
+          {/* Protected Root Feed (Instagram Style) */}
           <Route
-            path="/feed"
+            path="/"
             element={
               <ProtectedRoute>
                 <Feed />
@@ -43,6 +37,15 @@ const App: React.FC = () => {
             }
           />
 
+          <Route path="/feed" element={<Navigate to="/" replace />} />
+
+          {/* Public Routes */}
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/sports" element={<AllSports />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+
+          {/* Other Protected Routes */}
           <Route
             path="/radar"
             element={

@@ -23,7 +23,13 @@ const Auth: React.FC = () => {
 
   const [isLogin, setIsLogin] = useState(initialMode !== 'signup');
   const navigate = useNavigate();
-  const { login, signup, loginWithGoogle, isLoading } = useAuth();
+  const { login, signup, loginWithGoogle, isLoading, user } = useAuth();
+
+  useEffect(() => {
+    if (user && !isLoading) {
+      navigate('/', { replace: true });
+    }
+  }, [user, isLoading, navigate]);
 
   // Wizard State
   const [currentStep, setCurrentStep] = useState(1);

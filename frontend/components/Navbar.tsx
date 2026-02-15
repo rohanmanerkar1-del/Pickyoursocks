@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] z-[60] flex justify-center pb-6 px-4 pointer-events-none">
         <div className="w-full max-w-[500px] pointer-events-auto">
           <div className="bg-zinc-900/80 backdrop-blur-2xl border border-white/5 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center justify-around px-2 py-3">
-            <NavItem to="/feed" icon={Home} label="Home" />
+            <NavItem to="/" icon={Home} label="Home" />
             <NavItem to="/radar" icon={Radio} label="Radar" />
 
             {/* Action Button */}
