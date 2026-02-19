@@ -260,7 +260,8 @@ const Radar: React.FC = () => {
                 .from('match_requests')
                 .update({
                     status: 'accepted',
-                    accepted_by: user.id
+                    accepted_by: user.id,
+                    opponent_id: user.id // FIX: Set opponent_id so RLS allows updates
                 })
                 .eq('id', requestId);
 
@@ -328,7 +329,7 @@ const Radar: React.FC = () => {
                 ? { challenger_lat: latitude, challenger_lng: longitude }
                 : { opponent_lat: latitude, opponent_lng: longitude };
 
-            const { data: updatedMatch, error: updateError } = await supabase
+            const { data: updatedMatches, error: updateError } = await supabase
                 .from('match_requests')
                 .update(updatePayload)
                 .eq('id', match.id)
@@ -337,10 +338,17 @@ const Radar: React.FC = () => {
                     challenger:profiles!match_requests_user_id_fkey (*),
                     opponent:profiles!match_requests_opponent_id_fkey (*),
                     acceptor:profiles!match_requests_accepted_by_fkey (*)
-                `)
-                .single();
+                `);
 
             if (updateError) throw updateError;
+
+            // Handle array response safely
+            const updatedMatch = updatedMatches?.[0];
+
+            if (!updatedMatch) {
+                // If update succeeded but returned no rows, it's likely an RLS issue due to stale data
+                throw new Error("Match update returned no data. This match might be stale (created before the fix). Please CANCEL this match and create a NEW one.");
+            }
 
             // 4. Logic to verify proximity if both have checked in
             const lat1 = updatedMatch.challenger_lat;
@@ -369,7 +377,7 @@ const Radar: React.FC = () => {
             fetchAcceptedMatches();
         } catch (err: any) {
             console.error('Check-in error:', err);
-            let errorMessage = "Check-in failed.";
+            let errorMessage = err.message || "Check-in failed."; // FIX: Use real error message
 
             if (err.code === 1) { // PERMISSION_DENIED
                 // Explicitly explain why the popup isn't appearing

@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
               <p className="text-blue-400 font-bold uppercase tracking-[0.3em] mb-4 animate-fade-in opacity-0" style={{ animation: 'fadeIn 1s forwards' }}>
                 Skill-Rated Matchmaking
               </p>
-              <h1 className="text-6xl md:text-9xl font-black italic uppercase tracking-tighter leading-[0.85] mb-8 text-white drop-shadow-2xl">
+              <h1 className="text-4xl md:text-9xl font-black italic uppercase tracking-tighter leading-[0.85] mb-8 text-white drop-shadow-2xl">
                 Find Your <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 pr-4">Competition</span>
               </h1>

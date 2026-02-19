@@ -29,11 +29,11 @@ const SportsGrid: React.FC<SportsGridProps> = ({ limit }) => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 pb-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:pb-0">
           {displayedSports.map((sport) => (
             <div
               key={sport.id}
-              className="group relative h-[450px] overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 cursor-pointer"
+              className="group relative min-w-[280px] w-[85vw] md:w-auto h-[450px] overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 cursor-pointer snap-center shrink-0"
             >
               <img
                 src={sport.image}

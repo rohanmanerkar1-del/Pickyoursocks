@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/AuthContext';
 import AppHeader from '../components/AppHeader';
+import SportsGrid from '../components/SportsGrid';
 import UserProfileSidebar from '../components/UserProfileSidebar';
 import ErrorState from '../components/ErrorState';
 import { supabase } from '../lib/supabase';
@@ -271,6 +272,10 @@ const Feed: React.FC = () => {
 
       <main className="pt-20 px-4 max-w-lg mx-auto">
         <div className="space-y-8">
+          {/* SPORTS QUICK PICK */}
+          <div className="-mx-4">
+            <SportsGrid limit={4} />
+          </div>
 
           {/* FEED */}
           <div>
