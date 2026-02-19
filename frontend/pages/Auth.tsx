@@ -8,13 +8,13 @@ const MAX_STEPS = 3;
 
 // Calibration Levels based on the user's provided guide
 const SKILL_LEVELS = [
-  { level: 0.5, label: 'Newbie', elo: 600, desc: 'Learning to hold the racket. Mostly stationary.' },
-  { level: 1, label: 'Beginner', elo: 800, desc: 'Can hit basic shots but footwork is stiff.' },
-  { level: 2, label: 'Recreational', elo: 1000, desc: 'Clears reach baseline, but error rate is high.' },
-  { level: 3, label: 'Intermediate', elo: 1200, desc: 'Stable serve, can smash/drop, moving better.' },
-  { level: 4, label: 'Advanced', elo: 1500, desc: 'Strong net play, continuous attacks, good tactics.' },
-  { level: 5, label: 'Expert', elo: 1800, desc: 'Proficient in all techniques, deceptive shots.' },
-  { level: 6, label: 'Elite', elo: 2000, desc: 'Professional characteristics, high speed & power.' },
+  { level: 0.5, label: 'Rookie', elo: 600, desc: 'Just starting! Learning rules and basic movements.' },
+  { level: 1, label: 'Beginner', elo: 800, desc: 'Can play a full match, working on consistency.' },
+  { level: 2, label: 'Amateur', elo: 1000, desc: 'Regular player, keeps rallies going, some unforced errors.' },
+  { level: 3, label: 'Intermediate', elo: 1200, desc: 'Competitive player, solid technical and tactical grasp.' },
+  { level: 4, label: 'Advanced', elo: 1500, desc: 'Seasoned competitor, high skill and tactical consistency.' },
+  { level: 5, label: 'Elite', elo: 1800, desc: 'Top-tier regional player, high-level competitive standard.' },
+  { level: 6, label: 'Legend', elo: 2000, desc: 'Professional, semi-pro, or elite national standard.' },
 ];
 
 const Auth: React.FC = () => {
