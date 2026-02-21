@@ -68,11 +68,14 @@ const Rankings: React.FC = () => {
                         <div className="space-y-4 text-center">
                             <div className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500">Next Milestone</div>
                             <div className="flex flex-col items-center justify-center gap-1 overflow-visible">
-                                <div className="flex items-center gap-2 text-[#4ade80] pr-8 overflow-visible">
-                                    <TrendingUp size={24} />
-                                    <span className="text-6xl font-black italic pb-1">
-                                        +{user?.elo ? (Math.ceil(user.elo / 100) * 100) - user.elo : 100} pts
-                                    </span>
+                                <div className="relative inline-block group/counter cursor-default pr-6 overflow-visible">
+                                    <div className="flex items-center gap-2 text-[#4ade80]">
+                                        <TrendingUp size={24} />
+                                        <span className="text-6xl font-black italic pb-1">
+                                            +{user?.elo ? (Math.ceil(user.elo / 100) * 100) - user.elo : 100}
+                                        </span>
+                                    </div>
+                                    <span className="absolute -top-1 -right-2 text-lg font-black italic text-[#4ade80] rotate-12 opacity-80 animate-pulse">pts</span>
                                 </div>
                             </div>
                             <p className="text-sm text-gray-400 font-medium">
