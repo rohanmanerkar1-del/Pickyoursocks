@@ -70,7 +70,7 @@ const Rankings: React.FC = () => {
                             <div className="flex flex-col items-center justify-center gap-1 overflow-visible">
                                 <div className="flex items-center gap-2 text-[#4ade80] pr-8 overflow-visible">
                                     <TrendingUp size={24} />
-                                    <span className="text-4xl md:text-6xl font-black italic pb-1">
+                                    <span className="text-6xl font-black italic pb-1">
                                         +{user?.elo ? (Math.ceil(user.elo / 100) * 100) - user.elo : 100} pts
                                     </span>
                                 </div>
