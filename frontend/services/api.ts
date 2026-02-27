@@ -131,35 +131,38 @@ export const api = {
      * Fetch live match results for the ticker
      */
     getMatchResults: async (): Promise<MatchResult[]> => {
-        const { data, error } = await supabase
-            .from('matches')
-            .select(`
-                id,
-                winner_id,
-                loser_id,
-                winner_elo,
-                loser_elo,
-                elo_change,
-                score,
-                winner:profiles!winner_id(name),
-                loser:profiles!loser_id(name)
-            `)
-            .order('created_at', { ascending: false })
-            .limit(10);
+        try {
+            const { data, error } = await supabase
+                .from('match_results')
+                .select(`
+                    id,
+                    winner_id,
+                    player1_id,
+                    player2_id,
+                    sport,
+                    score,
+                    winner:profiles!match_results_winner_id_fkey(name)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(10);
 
-        if (error || !data) {
-            console.warn('Error fetching matches:', error);
+            if (error || !data) {
+                console.warn('Error fetching match results:', error);
+                return [];
+            }
+
+            return data.map((m: any) => ({
+                id: m.id,
+                winner: m.winner?.name || 'Winner',
+                loser: 'Opponent',
+                winnerElo: 0,
+                loserElo: 0,
+                eloChange: 0,
+                score: m.score || 'Won'
+            }));
+        } catch (e) {
+            console.warn('Error fetching match results exception:', e);
             return [];
         }
-
-        return data.map((m: any) => ({
-            id: m.id,
-            winner: m.winner?.name || 'Winner',
-            loser: m.loser?.name || 'Loser',
-            winnerElo: m.winner_elo,
-            loserElo: m.loser_elo,
-            eloChange: m.elo_change,
-            score: m.score
-        }));
-    }
+    },
 };

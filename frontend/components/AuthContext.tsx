@@ -132,19 +132,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           // ADDED: Small delay to ensure session is "hot" (fixes race condition)
           await new Promise(r => setTimeout(r, 500));
 
-          const profilePromise = fetchProfileSafe(session.user.id);
-          const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(undefined), 15000));
+          try {
+            const profilePromise = fetchProfileSafe(session.user.id);
+            const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(undefined), 15000));
 
-          const profile = await Promise.race([profilePromise, timeoutPromise]);
+            const profile = await Promise.race([profilePromise, timeoutPromise]);
 
-          if (mounted) {
-            // Only fall back to defaults if profile is explicitly null (likely new user)
-            // If undefined (timeout) or error, we might want to be careful, but for INIT we must set something.
-            setUser({
-              id: session.user.id,
-              email: session.user.email!,
-              ...(profile || { elo: 1200 }),
-            });
+            if (mounted) {
+              // Only fall back to defaults if profile is explicitly null (likely new user)
+              // If undefined (timeout) or error, we might want to be careful, but for INIT we must set something.
+              setUser({
+                id: session.user.id,
+                email: session.user.email!,
+                ...(profile || { elo: 1200 }),
+              });
+            }
+          } catch (profileErr) {
+            console.error('Error in profile race condition on init:', profileErr);
+            if (mounted) {
+              setUser({
+                id: session.user.id,
+                email: session.user.email!,
+                elo: 1200,
+              });
+            }
           }
         } else {
           if (mounted) {
@@ -176,33 +187,40 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (session?.user) {
         const sbUser = session.user;
 
-        // RACE CONDITION FIX FOR EVENT LISTENER TOO
-        const profilePromise = fetchProfileSafe(sbUser.id);
-        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(undefined), 10000));
+        try {
+          // RACE CONDITION FIX FOR EVENT LISTENER TOO
+          const profilePromise = fetchProfileSafe(sbUser.id);
+          const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(undefined), 10000));
 
-        const profile = await Promise.race([profilePromise, timeoutPromise]);
+          const profile = await Promise.race([profilePromise, timeoutPromise]);
 
-        if (mounted) {
-          setUser(prev => {
-            if (profile) {
+          if (mounted) {
+            setUser(prev => {
+              if (profile) {
+                return {
+                  id: sbUser.id,
+                  email: sbUser.email!,
+                  ...profile,
+                };
+              }
+              // If profile fetch failed, but we have a user (prev), KEEP PREV!
+              if (prev) {
+                console.warn('Profile refresh failed - keeping existing user state.');
+                return prev;
+              }
+              // No previous state? Then we have to use defaults.
               return {
                 id: sbUser.id,
                 email: sbUser.email!,
-                ...profile,
+                elo: 1200,
               };
-            }
-            // If profile fetch failed, but we have a user (prev), KEEP PREV!
-            if (prev) {
-              console.warn('Profile refresh failed - keeping existing user state.');
-              return prev;
-            }
-            // No previous state? Then we have to use defaults.
-            return {
-              id: sbUser.id,
-              email: sbUser.email!,
-              elo: 1200,
-            };
-          });
+            });
+          }
+        } catch (profileErr) {
+          console.error('Error in profile race condition on auth state change:', profileErr);
+          if (mounted) {
+            setUser(prev => prev || { id: sbUser.id, email: sbUser.email!, elo: 1200 });
+          }
         }
       } else {
         if (mounted) setUser(null);
